@@ -3,9 +3,19 @@ import Light from './Light'
 import "./TrafficLight.css"
 
 
+
 function TrafficLight() {
   const [selectedColor, setSelectedColor] = useState("red");
-  const colors = ["red","goldenRod","green"]
+  const [showPurple, setShowPurple] = useState(false);
+
+  const togglePurple = () => {
+    setShowPurple(prev => !prev);
+  };
+
+  const colors = showPurple
+    ? ["red", "goldenRod", "green", "purple"]
+    : ["red", "goldenRod", "green"];
+
   const changeColor = () => {
     const currentColor = colors.indexOf(selectedColor)
     const nextColor = (currentColor + 1) % colors.length
@@ -27,11 +37,25 @@ function TrafficLight() {
           <div onClick={() => setSelectedColor("green")} className={(selectedColor === "green" ? "glowGreen" : "")}>
             <Light color='green' />
           </div>
+          {showPurple && (
+            <div
+              onClick={() => setSelectedColor("purple")}
+              className={selectedColor === "purple" ? "glowPurple" : ""}
+            >
+              <Light color="purple" />
+            </div>
+          )}
 
         </div>
-        <button className='btnChange' onClick={changeColor}>
+        <div className='row mt-3'>
+          <button className='btnChange' onClick={changeColor}>
             Cambiar Color
-        </button>
+          </button>
+          <button className='btnChange' onClick={togglePurple}>
+            Mostrar / Ocultar Púrpura
+          </button>
+        </div>
+
       </div>
     </>
   )
